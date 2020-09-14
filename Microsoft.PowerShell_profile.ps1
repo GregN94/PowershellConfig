@@ -12,16 +12,21 @@ Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
+function CheatSheet {
+    $commandList = '7z x .\Example.zip -aoa -o".\Example" -y'
+
+    return $commandList;
+}
+
 # PowerShell parameter completion shim for the dotnet CLI
 Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
-     param($commandName, $wordToComplete, $cursorPosition)
-         dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
-            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
-         }
- }
+    param($commandName, $wordToComplete, $cursorPosition)
+        dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
+           [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+        }
+}
 
-$currentLocation = Get-Location
-if ($currentLocation.Path -eq "C:\Windows\System32")
+if ((Get-Location).Path -eq "C:\Windows\System32")
 {
-    Set-Location ~
+   Set-Location ~
 }
