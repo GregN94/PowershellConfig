@@ -30,3 +30,9 @@ if ((Get-Location).Path -eq "C:\Windows\System32")
 {
    Set-Location ~
 }
+
+function PruneLocalBranches(){
+    git branch -D @(git branch | select-string -NotMatch "master" | ForEach-Object {$_.Line.Trim()})
+}
+
+$FormatEnumerationLimit = -1
